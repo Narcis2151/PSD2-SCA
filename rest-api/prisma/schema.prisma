@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id               Int                @id @default(autoincrement())
+  iban             String             @unique
+  currency         String
+  accountType      String
+  partyId          Int?
+  name             String
+  resourceId       String             @unique
+  Party            Party?             @relation(fields: [partyId], references: [id])
+  Balance          Balance[]
+  ConsentAccount   ConsentAccount[]
+  Transaction      Transaction[]
+  UserPartyAccount UserPartyAccount[]
+}
+
+model Balance {
+  id          Int      @id @default(autoincrement())
+  accountId   Int
+  balanceType String
+  lastChange  DateTime
+  amount      Float
+  currency    String
+  Account     Account  @relation(fields: [accountId], references: [id])
+}
+
+model Consent {
+  id                Int              @id @default(autoincrement())
+  status            String
+  partyId           Int?
+  userId            Int?
+  tppRedirectUrl    String?
+  tppApplicationId  Int?
+  psuId             String           @unique
+  isRecurrent       Boolean?
+  frequencyPerDay   Int?
+  isActive          Boolean?
+  validTo           DateTime?
+  createdAt         DateTime?
+  deletedAt         DateTime?
+  allAccountsAccess Boolean?
+  psuIpAddress      String?
+  Party             Party?           @relation(fields: [partyId], references: [id])
+  TppApplication    TppApplication?  @relation(fields: [tppApplicationId], references: [id])
+  User              User?            @relation(fields: [userId], references: [id])
+  ConsentAccount    ConsentAccount[]
+  ConsentAction     ConsentAction[]
+}
+
+model ConsentAccount {
+  id                   Int      @id @default(autoincrement())
+  consentId            Int
+  accountId            Int?
+  isTransactionsAccess Boolean?
+  isBalancesAccess     Boolean?
+  source               Source?
+  iban                 String
+  Account              Account? @relation(fields: [accountId], references: [id])
+  Consent              Consent  @relation(fields: [consentId], references: [id])
+}
+
+model ConsentAction {
+  id        Int      @id @default(autoincrement())
+  consentId Int
+  action    String
+  createdAt DateTime @default(now())
+  Consent   Consent  @relation(fields: [consentId], references: [id])
+}
+
+model Party {
+  id        Int         @id @default(autoincrement())
+  Account   Account[]
+  Consent   Consent[]
+  UserParty UserParty[]
+}
+
+model Tpp {
+  id                 Int              @id @default(autoincrement())
+  organizationId     String
+  name               String
+  email              String
+  phoneNumber        String?
+  addressCountry     String?
+  addressTown        String?
+  addressPostalCode  String?
+  hasPispPermission  Boolean
+  hasPiispPermission Boolean
+  hasAispPermission  Boolean
+  password           String
+  TppApplication     TppApplication[]
+}
+
+model TppApplication {
+  id              Int       @id @default(autoincrement())
+  applicationName String
+  redirectUrl     String
+  tppId           Int
+  Consent         Consent[]
+  Tpp             Tpp       @relation(fields: [tppId], references: [id])
+}
+
+model Transaction {
+  id              Int               @id @default(autoincrement())
+  resourceId      String            @unique
+  amount          Float
+  currency        String
+  transactionType String
+  bookingDate     DateTime
+  valueDate       DateTime
+  creditor        String
+  debtor          String
+  creditorAccount String
+  debtorAccount   String
+  description     String
+  accountId       Int?
+  status          TransactionStatus
+  Account         Account?          @relation(fields: [accountId], references: [id])
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  loginName String
+  password  String
+  Consent   Consent[]
+  UserParty UserParty[]
+}
+
+model UserParty {
+  id               Int                @id @default(autoincrement())
+  userId           Int
+  partyId          Int
+  Party            Party              @relation(fields: [partyId], references: [id])
+  User             User               @relation(fields: [userId], references: [id])
+  UserPartyAccount UserPartyAccount[]
+}
+
+model UserPartyAccount {
+  id          Int       @id @default(autoincrement())
+  userPartyId Int
+  accountId   Int
+  Account     Account   @relation(fields: [accountId], references: [id])
+  UserParty   UserParty @relation(fields: [userPartyId], references: [id])
+}
+
+enum Source {
+  PSU
+  TPP
+}
+
+enum TransactionStatus {
+  BOOKED
+  PENDING
+}
