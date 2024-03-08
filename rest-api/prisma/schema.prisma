@@ -128,7 +128,7 @@ model Transaction {
 
 model User {
   id        Int         @id @default(autoincrement())
-  loginName String
+  loginName String      @unique
   password  String
   Consent   Consent[]
   UserParty UserParty[]
