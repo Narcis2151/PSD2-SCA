@@ -52,8 +52,8 @@ model Consent {
   Party             Party?           @relation(fields: [partyId], references: [id])
   TppApplication    TppApplication?  @relation(fields: [tppApplicationId], references: [id])
   User              User?            @relation(fields: [userId], references: [id])
-  ConsentAccount    ConsentAccount[]
-  ConsentAction     ConsentAction[]
+  ConsentAccounts   ConsentAccount[]
+  ConsentActions    ConsentAction[]
 }
 
 model ConsentAccount {
@@ -141,6 +141,8 @@ model UserParty {
   Party            Party              @relation(fields: [partyId], references: [id])
   User             User               @relation(fields: [userId], references: [id])
   UserPartyAccount UserPartyAccount[]
+
+  @@unique([userId, partyId])
 }
 
 model UserPartyAccount {
@@ -149,6 +151,8 @@ model UserPartyAccount {
   accountId   Int
   Account     Account   @relation(fields: [accountId], references: [id])
   UserParty   UserParty @relation(fields: [userPartyId], references: [id])
+
+  @@unique([userPartyId, accountId])
 }
 
 enum Source {

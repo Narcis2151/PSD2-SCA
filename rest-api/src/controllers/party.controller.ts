@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { GetPartiesInput, PostPartyInput } from '../schemas/party.schema';
-import { getConsent, postParty } from '../services/consent.service';
+import { validateConsent, postParty } from '../services/consent.service';
 import getParties from '../services/party.service';
 
 export async function getPartiesHandler(
@@ -9,7 +9,7 @@ export async function getPartiesHandler(
 ) {
   try {
     const { consentId } = req.params;
-    const consent = await getConsent(+consentId);
+    const consent = await validateConsent(+consentId);
     if (!consent) {
       return res.status(404).send('Consent not found');
     }
@@ -27,7 +27,7 @@ export async function postPartyHandler(
 ) {
   try {
     const { consentId } = req.params;
-    const consent = await getConsent(+consentId);
+    const consent = await validateConsent(+consentId);
     if (!consent) {
       return res.status(404).send('Consent not found');
     }

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
+import { validateConsent, addConsentUser } from '../services/consent.service';
 import { LoginInput } from '../schemas/auth.schema';
 import { signJwt } from '../utils/jwt';
 import config from 'config';
 import loginUser from '../services/auth.service';
-import { getConsent, addConsentUser } from '../services/consent.service';
 
 export default async function loginHandler(
   req: Request<LoginInput['params'], {}, LoginInput['body']>,
@@ -11,11 +11,11 @@ export default async function loginHandler(
 ) {
   try {
     const { consentId } = req.params;
-    const consent = await getConsent(+consentId);
+    const consent = await validateConsent(+consentId);
     if (!consent) {
       return res.status(404).send('Consent not found');
     }
-    
+
     const { username, password } = req.body;
     const user = await loginUser(username, password);
 

@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import logger from '../utils/logger';
 import bcrypt from 'bcrypt';
-import config from 'config';
 
 const prisma = new PrismaClient();
 
