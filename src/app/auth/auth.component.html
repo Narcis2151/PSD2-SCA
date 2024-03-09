@@ -1,16 +1,36 @@
 <div>
   <div *ngIf="isLoading" style="text-align: center">
-      <app-loading-spinner></app-loading-spinner>
-    </div>
-  <form>
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
     <div class="mb-4">
-      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-      <input type="text" id="username" name="username" class="form-input mt-1 block w-full" placeholder="Enter your username">
+      <label for="username" class="block text-sm font-medium text-gray-700"
+        >Username</label
+      >
+      <input
+        type="text"
+        id="username"
+        name="username"
+        class="form-input mt-1 block w-full"
+        placeholder="Enter your username"
+        required
+        ngModel
+      />
     </div>
     <div class="mb-4">
-      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-      <input type="password" id="password" name="password" class="form-input mt-1 block w-full" placeholder="Enter your password">
+      <label for="password" class="block text-sm font-medium text-gray-700"
+        >Password</label
+      >
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-input mt-1 block w-full"
+        placeholder="Enter your password"
+        required
+        ngModel
+      />
     </div>
-    <button class="btn btn-primary">Login</button>
+    <button [disabled]="!authForm.valid" class="btn btn-primary">Login</button>
   </form>
 </div>
