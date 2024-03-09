@@ -1,0 +1,16 @@
+<div>
+  <div *ngIf="isLoading" style="text-align: center">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+  <form>
+    <div class="mb-4">
+      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+      <input type="text" id="username" name="username" class="form-input mt-1 block w-full" placeholder="Enter your username">
+    </div>
+    <div class="mb-4">
+      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+      <input type="password" id="password" name="password" class="form-input mt-1 block w-full" placeholder="Enter your password">
+    </div>
+    <button class="btn btn-primary">Login</button>
+  </form>
+</div>
