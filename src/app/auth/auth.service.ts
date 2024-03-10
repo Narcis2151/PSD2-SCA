@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { User } from '../shared/user.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 
 export interface AuthResponseData {
   accessToken: string;
@@ -14,13 +14,13 @@ export interface AuthResponseData {
 })
 export class AuthService {
   user = new BehaviorSubject<User>(new User());
-  private tokenExpirationTimer: any;
-  constructor(private http: HttpClient, private router: Router) {}
+  // private tokenExpirationTimer: any;
+  constructor(private http: HttpClient) {}
 
   login(consentId: number, loginName: string, password: string) {
     return this.http
       .post<AuthResponseData>(`http://localhost:3000/${consentId}/login`, {
-        loginName: loginName,
+        username: loginName,
         password: password,
       })
       .pipe(

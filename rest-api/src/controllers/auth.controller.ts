@@ -22,14 +22,17 @@ export default async function loginHandler(
     if (!user) {
       return res.status(401).send('Unauthorized');
     }
-
+    const expiresIn = config.get<string>('accessTokenTtl');
     const accessToken = signJwt(
       { userId: user.id, consentId: consentId },
-      { expiresIn: config.get<string>('accessTokenTtl') } // 15m
+      { expiresIn: expiresIn } // 15m
     );
 
     await addConsentUser(+consentId, user.id);
-    return res.status(200).send({ accessToken });
+    return res.status(200).send({
+      accessToken: accessToken,
+      expiresIn: expiresIn,
+    });
   } catch (e: any) {
     res.status(400).send(e.message);
   }

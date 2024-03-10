@@ -1,18 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthResponseData, AuthService } from './auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
-export class AuthComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+export class AuthComponent implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   error: string | null = null;
   isLoading = false;
+  consentId: number = 0;
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.consentId = +params['consentId'];
+    });
+  }
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
@@ -25,19 +36,19 @@ export class AuthComponent {
 
     this.isLoading = true;
 
-    authObs = this.authService.login(1, email, password);
+    authObs = this.authService.login(this.consentId, email, password);
 
     authObs.subscribe({
       next: (resData) => {
         console.log(resData);
         this.isLoading = false;
-        this.router.navigate(['/party']);
+        this.router.navigate([`/${this.consentId}/party`]);
       },
       error: (errorMessage) => {
         console.log(errorMessage);
         this.error = errorMessage;
         this.isLoading = false;
-      }
+      },
     });
 
     form.reset();
