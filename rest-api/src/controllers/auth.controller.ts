@@ -4,6 +4,7 @@ import { LoginInput } from '../schemas/auth.schema';
 import { signJwt } from '../utils/jwt';
 import config from 'config';
 import loginUser from '../services/auth.service';
+import logger from '../utils/logger';
 
 export default async function loginHandler(
   req: Request<LoginInput['params'], {}, LoginInput['body']>,

@@ -19,7 +19,7 @@ import requireUser from './middleware/verifyJwt';
 
 const router = Router();
 
-router.post(':consentId/login', validate(loginSchema), loginHandler);
+router.post('/:consentId/login', validate(loginSchema), loginHandler);
 router.get(
   ':consentId/party',
   [requireUser, validate(getPartiesSchema)],

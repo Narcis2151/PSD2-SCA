@@ -17,11 +17,11 @@ export class AuthComponent implements OnInit {
   ) {}
   error: string | null = null;
   isLoading = false;
-  consentId: number = 0;
+  consentId: string = '';
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.consentId = +params['consentId'];
+      this.consentId = params['consentId'];
     });
   }
 
@@ -29,14 +29,14 @@ export class AuthComponent implements OnInit {
     if (!form.valid) {
       return;
     }
-    const email = form.value.email;
+    const username = form.value.username;
     const password = form.value.password;
 
     let authObs: Observable<AuthResponseData>;
 
     this.isLoading = true;
 
-    authObs = this.authService.login(this.consentId, email, password);
+    authObs = this.authService.login(this.consentId, username, password);
 
     authObs.subscribe({
       next: (resData) => {

@@ -17,7 +17,8 @@ export class AuthService {
   // private tokenExpirationTimer: any;
   constructor(private http: HttpClient) {}
 
-  login(consentId: number, loginName: string, password: string) {
+  login(consentId: string, loginName: string, password: string) {
+    console.log(`http://localhost:3000/${consentId}/login`);
     return this.http
       .post<AuthResponseData>(`http://localhost:3000/${consentId}/login`, {
         username: loginName,
