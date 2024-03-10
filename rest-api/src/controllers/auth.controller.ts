@@ -24,7 +24,7 @@ export default async function loginHandler(
     }
 
     const accessToken = signJwt(
-      { userId: user.id },
+      { userId: user.id, consentId: consentId },
       { expiresIn: config.get<string>('accessTokenTtl') } // 15m
     );
 

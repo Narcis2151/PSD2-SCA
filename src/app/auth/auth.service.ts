@@ -13,9 +13,9 @@ export interface AuthResponseData {
   providedIn: 'root',
 })
 export class AuthService {
-   user = new BehaviorSubject<User>(new User());
-   private tokenExpirationTimer: any;
-   constructor(private http: HttpClient, private router: Router) {}
+  user = new BehaviorSubject<User>(new User());
+  private tokenExpirationTimer: any;
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(consentId: number, loginName: string, password: string) {
     return this.http
@@ -56,7 +56,7 @@ export class AuthService {
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
+      return throwError(() => new Error(errorMessage));
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
@@ -69,6 +69,6 @@ export class AuthService {
         errorMessage = 'This password is not correct.';
         break;
     }
-    return throwError(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

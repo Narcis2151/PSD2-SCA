@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { get } from 'lodash';
 
 import { verifyJwt } from '../utils/jwt';
+import { JwtPayload } from 'jsonwebtoken';
 
 const deserializeUser = async (
   req: Request,
@@ -16,10 +17,17 @@ const deserializeUser = async (
   if (!accessToken) {
     return next();
   }
-  const { expired, decoded } = verifyJwt(accessToken);
+  const {
+    valid,
+    expired,
+    decoded,
+  }: { valid: boolean; expired: boolean; decoded: string | JwtPayload | null } =
+    verifyJwt(accessToken);
 
-  if (decoded) {
-    res.locals.tpp = decoded;
+  if (decoded && typeof decoded !== 'string') {
+    res.locals.user = decoded.payload['userId'];
+    res.locals.consentId = decoded.payload['consentId'];
+
     return next();
   }
 
