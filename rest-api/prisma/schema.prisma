@@ -78,6 +78,7 @@ model ConsentAction {
 
 model Party {
   id        Int         @id @default(autoincrement())
+  name      String?
   Account   Account[]
   Consent   Consent[]
   UserParty UserParty[]

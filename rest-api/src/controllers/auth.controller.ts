@@ -14,14 +14,14 @@ export default async function loginHandler(
     const { consentId } = req.params;
     const consent = await validateConsent(+consentId);
     if (!consent) {
-      return res.status(404).send('Consent not found');
+      return res.status(404).send({ error: 'Consent not found' });
     }
 
     const { username, password } = req.body;
     const user = await loginUser(username, password);
 
     if (!user) {
-      return res.status(401).send('Unauthorized');
+      return res.status(401).send({ error: 'Unauthorized' });
     }
     const expiresIn = config.get<string>('accessTokenTtl');
     const accessToken = signJwt(
@@ -35,6 +35,6 @@ export default async function loginHandler(
       expiresIn: expiresIn,
     });
   } catch (e: any) {
-    res.status(400).send(e.message);
+    res.status(400).send({ error: e.message });
   }
 }

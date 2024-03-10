@@ -1,0 +1,29 @@
+<div class="flex justify-center items-center h-screen">
+  <div *ngIf="isLoading" style="text-align: center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <form #partyForm="ngForm" (ngSubmit)="onSubmit(partyForm)" *ngIf="!isLoading">
+    <div class="w-64">
+      <label for="party" class="block text-sm font-medium text-gray-700"
+        >Party</label
+      >
+      <select
+        id="party"
+        name="party"
+        class="w-full p-2 border border-gray-300 rounded-md"
+        required
+        ngModel
+      >
+        <option *ngFor="let party of parties.partyIds" [value]="party">
+          {{ party }}
+        </option>
+      </select>
+      <button
+        [disabled]="!partyForm.valid"
+        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
+      >
+        Continue
+      </button>
+    </div>
+  </form>
+</div>

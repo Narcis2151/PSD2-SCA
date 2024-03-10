@@ -7,13 +7,15 @@ import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { PartyComponent } from './party/party.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    PartyComponent
   ],
   imports: [
     BrowserModule,

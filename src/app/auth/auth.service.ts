@@ -18,7 +18,6 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(consentId: string, loginName: string, password: string) {
-    console.log(`http://localhost:3000/${consentId}/login`);
     return this.http
       .post<AuthResponseData>(`http://localhost:3000/${consentId}/login`, {
         username: loginName,
@@ -56,18 +55,18 @@ export class AuthService {
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
-    if (!errorRes.error || !errorRes.error.error) {
+    if (!errorRes.error) {
       return throwError(() => new Error(errorMessage));
     }
     switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'This email exists already';
+      case 'Unauthorized':
+        errorMessage = 'Unauthorized';
         break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email does not exist.';
+      case 'User or password incorrect':
+        errorMessage = 'User or password incorrect';
         break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'This password is not correct.';
+      case 'Consent not found':
+        errorMessage = 'Consent not found';
         break;
     }
     return throwError(() => new Error(errorMessage));

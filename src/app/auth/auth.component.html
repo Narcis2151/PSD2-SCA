@@ -1,4 +1,5 @@
 <div>
+  <div *ngIf="error" class="text-red-500 mt-2">{{ error }}</div>
   <div *ngIf="isLoading" style="text-align: center">
     <app-loading-spinner></app-loading-spinner>
   </div>

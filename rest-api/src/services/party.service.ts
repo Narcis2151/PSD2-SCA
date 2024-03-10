@@ -13,6 +13,10 @@ export default async function getParties(userId: number) {
           },
         },
       },
+      select: {
+        id: true,
+        // name: true,
+      },
     });
 
     return parties;
@@ -21,5 +25,3 @@ export default async function getParties(userId: number) {
     throw new Error(e.message);
   }
 }
-
-
