@@ -15,13 +15,30 @@ import {
   postPartyHandler,
 } from './controllers/party.controller';
 import validate from './middleware/validateResource';
+import requireUser from './middleware/verifyJwt';
 
 const router = Router();
 
 router.post(':consentId/login', validate(loginSchema), loginHandler);
-router.get(':consentId/party', validate(getPartiesSchema), getPartiesHandler);
-router.post(':consentId/party', validate(postPartySchema), postPartyHandler);
-router.get(':consentId', validate(getConsentSchema), getConsentHandler);
-router.put(':consentId', validate(submitConsentSchema), submitConsentHandler);
+router.get(
+  ':consentId/party',
+  [requireUser, validate(getPartiesSchema)],
+  getPartiesHandler
+);
+router.post(
+  ':consentId/party',
+  [requireUser, validate(postPartySchema)],
+  postPartyHandler
+);
+router.get(
+  ':consentId',
+  [requireUser, validate(getConsentSchema)],
+  getConsentHandler
+);
+router.put(
+  ':consentId',
+  [requireUser, validate(submitConsentSchema)],
+  submitConsentHandler
+);
 
 export default router;
