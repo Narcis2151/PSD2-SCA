@@ -21,22 +21,22 @@ const router = Router();
 
 router.post('/:consentId/login', validate(loginSchema), loginHandler);
 router.get(
-  ':consentId/party',
+  '/:consentId/party',
   [requireUser, validate(getPartiesSchema)],
   getPartiesHandler
 );
 router.post(
-  ':consentId/party',
+  '/:consentId/party',
   [requireUser, validate(postPartySchema)],
   postPartyHandler
 );
 router.get(
-  ':consentId',
+  '/:consentId/consent',
   [requireUser, validate(getConsentSchema)],
   getConsentHandler
 );
 router.put(
-  ':consentId',
+  '/:consentId/consent',
   [requireUser, validate(submitConsentSchema)],
   submitConsentHandler
 );

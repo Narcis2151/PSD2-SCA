@@ -10,11 +10,11 @@ export async function getPartiesHandler(
   try {
     const { consentId } = req.params;
     const consent = await validateConsent(+consentId);
-    if (!consent) {
+    if (!consent || consent.userId === null) {
       return res.status(404).send('Consent not found');
     }
 
-    const parties = await getParties(+consentId);
+    const parties = await getParties(consent.userId);
     return res.status(200).send(parties);
   } catch (e: any) {
     res.status(400).send(e.message);

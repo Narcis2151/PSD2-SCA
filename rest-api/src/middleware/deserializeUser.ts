@@ -13,10 +13,10 @@ const deserializeUser = async (
     /^Bearer\s/,
     ''
   );
-
   if (!accessToken) {
     return next();
   }
+  console.log(accessToken);
   const {
     valid,
     expired,
@@ -25,8 +25,9 @@ const deserializeUser = async (
     verifyJwt(accessToken);
 
   if (decoded && typeof decoded !== 'string') {
-    res.locals.user = decoded.payload['userId'];
-    res.locals.consentId = decoded.payload['consentId'];
+    console.log(decoded);
+    res.locals.user = decoded['userId'];
+    res.locals.consentId = decoded['consentId'];
 
     return next();
   }

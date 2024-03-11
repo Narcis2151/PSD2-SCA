@@ -14,8 +14,8 @@
         required
         ngModel
       >
-        <option *ngFor="let party of parties.partyIds" [value]="party">
-          {{ party }}
+        <option *ngFor="let party of parties" [value]="party.id">
+          {{ party.name }}
         </option>
       </select>
       <button

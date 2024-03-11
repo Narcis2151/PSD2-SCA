@@ -15,7 +15,7 @@ export default async function getParties(userId: number) {
       },
       select: {
         id: true,
-        // name: true,
+        name: true,
       },
     });
 
