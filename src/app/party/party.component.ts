@@ -39,6 +39,8 @@ export class PartyComponent implements OnInit, OnDestroy {
 
   onSubmit(partyForm: NgForm) {
     console.log(partyForm.value);
+    this.partyService.submitParty(this.consentId, partyForm.value);
+    this.router.navigate([`/${this.consentId}/consent`]);
   }
 
   ngOnDestroy() {

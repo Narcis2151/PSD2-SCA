@@ -58,7 +58,7 @@ export class AuthService {
     if (!errorRes.error) {
       return throwError(() => new Error(errorMessage));
     }
-    switch (errorRes.error.error.message) {
+    switch (errorRes.error.message) {
       case 'Unauthorized':
         errorMessage = 'Unauthorized';
         break;
