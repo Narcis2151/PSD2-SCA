@@ -8,6 +8,8 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PartyComponent } from './party/party.component';
+import { ConsentComponent } from './consent/consent.component';
+import { AccountsComponent } from './consent/accounts/accounts.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { PartyComponent } from './party/party.component';
     AppComponent,
     AuthComponent,
     LoadingSpinnerComponent,
-    PartyComponent
+    PartyComponent,
+    ConsentComponent,
+    AccountsComponent
   ],
   imports: [
     BrowserModule,

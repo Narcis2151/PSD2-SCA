@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { User } from './shared/user.model';
+import { User } from '../shared/user.model';
 export interface PartyResponseData {
   id: number;
   name: string | null;

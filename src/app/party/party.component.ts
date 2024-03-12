@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PartyResponseData, PartyService } from '../party.service';
+import { PartyResponseData, PartyService } from './party.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
