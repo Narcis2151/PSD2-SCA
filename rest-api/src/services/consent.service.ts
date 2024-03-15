@@ -147,7 +147,7 @@ export async function addConsentUser(consentId: number, userId: number) {
   }
 }
 
-export async function postParty(consentId: number, partyId: any) {
+export async function postParty(consentId: number, partyId: number) {
   try {
     const consent = await prisma.consent.update({
       where: { id: consentId, status: 'PENDING', isActive: true },

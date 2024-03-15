@@ -32,9 +32,9 @@ export async function postPartyHandler(
       return res.status(404).send('Consent not found');
     }
 
-    const { partyId } = req.body;
-    await postParty(+consentId, partyId);
-    return res.status(200).send('Party added');
+    const { id } = req.body;
+    await postParty(+consentId, +id);
+    return res.status(200).send({ id });
   } catch (e: any) {
     res.status(400).send(e.message);
   }

@@ -8,13 +8,15 @@ export interface PartyResponseData {
   name: string | null;
 }
 
+interface SubmitPartyResponseData {
+  id: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class PartyService {
   user = new BehaviorSubject<User>(new User());
-  private parties: PartyResponseData[] = [];
-  public partiesChanged = new Subject<PartyResponseData[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -22,42 +24,31 @@ export class PartyService {
     const userData = JSON.parse(localStorage.getItem('userData') ?? '');
     const token = userData ? userData._token : null;
     const headers = { authorization: `Bearer ${token}` };
-    const $parties = this.http.get<PartyResponseData[]>(
+    const parties$ = this.http.get<PartyResponseData[]>(
       `http://localhost:3000/${consentId}/party`,
       {
         headers,
       }
     );
-    $parties
-      .pipe(
-        tap((parties) => {
-          this.setParties(parties);
-        })
-      )
-      .subscribe();
-  }
-
-  setParties(partyData: PartyResponseData[]) {
-    this.parties = partyData;
-    this.partiesChanged.next(this.parties.slice());
+    return parties$.pipe(catchError(this.handleError));
   }
 
   submitParty(consentId: string, partyData: PartyResponseData) {
     const userData = JSON.parse(localStorage.getItem('userData') ?? '');
     const token = userData ? userData._token : null;
     const headers = { authorization: `Bearer ${token}` };
-    const $party = this.http.post<PartyResponseData>(
+    const party$ = this.http.post<SubmitPartyResponseData>(
       `http://localhost:3000/${consentId}/party`,
       partyData,
       {
         headers,
       }
     );
-    $party
+    party$
       .pipe(
-        catchError(this.handleError),
+        // catchError(this.handleError),
         tap((party) => {
-          this.handlePartySubmission(party);
+          this.handlePartySubmission(+party.id);
         })
       )
       .subscribe();
@@ -82,11 +73,18 @@ export class PartyService {
     return throwError(() => new Error(errorMessage));
   }
 
-  handlePartySubmission(party: PartyResponseData) {
+  handlePartySubmission(id: Number) {
     const currentUser = JSON.parse(localStorage.getItem('userData') ?? '');
-    currentUser.partyId = party.id;
-    const user = new User(...currentUser);
+    currentUser.partyId = id;
+    const user = new User(
+      currentUser.loginName,
+      currentUser.userId,
+      currentUser.partyId,
+      currentUser._token,
+      currentUser._tokenExpirationDate
+    );
     this.user.next(user);
+    console.log(user);
     localStorage.setItem('userData', JSON.stringify(user));
   }
 }

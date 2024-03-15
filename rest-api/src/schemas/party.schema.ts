@@ -11,7 +11,7 @@ export const getPartiesSchema = z.object({
 export const postPartySchema = z.object({
   params,
   body: z.object({
-    partyId: z.string({ required_error: 'partyId is required' }),
+    id: z.string({ required_error: 'partyId is required' }),
   }),
 });
 

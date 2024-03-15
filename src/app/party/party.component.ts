@@ -25,15 +25,13 @@ export class PartyComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.consentId = params['consentId'];
     });
-    this.subscription = this.partyService.partiesChanged.subscribe(
-      (parties: PartyResponseData[]) => {
-        this.parties = parties;
-        console.log(this.parties);
-      }
-    );
     this.isLoading = true;
-    this.partyService.fetchParties(this.consentId);
-    // console.log(this.parties);
+    this.subscription = this.partyService
+      .fetchParties(this.consentId)
+      .subscribe((parties) => {
+        this.parties = parties;
+      });
+    console.log(this.parties);
     this.isLoading = false;
   }
 
