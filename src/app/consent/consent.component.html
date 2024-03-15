@@ -19,7 +19,8 @@
         <input
           type="checkbox"
           name="showBalances{{ i }}"
-          [(ngModel)]="account.showBalances"
+          [(ngModel)]="account.isBalancesAccount"
+          [disabled]="!account.isEditable"
           class="form-checkbox"
         />
       </div>
@@ -28,7 +29,8 @@
         <input
           type="checkbox"
           name="showTransactions{{ i }}"
-          [(ngModel)]="account.showTransactions"
+          [(ngModel)]="account.isTransactionsAccount"
+          [disabled]="!account.isEditable"
           class="form-checkbox"
         />
       </div>

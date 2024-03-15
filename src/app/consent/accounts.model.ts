@@ -1,5 +1,6 @@
 type AccountsResponseData = {
   id: Number;
+  name: String;
   iban: String;
   isBalancesAccount: Boolean;
   isTransactionsAccount: Boolean;

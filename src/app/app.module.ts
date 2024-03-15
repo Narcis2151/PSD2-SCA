@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PartyComponent } from './party/party.component';
 import { ConsentComponent } from './consent/consent.component';
-import { AccountsComponent } from './consent/accounts/accounts.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 
@@ -20,7 +19,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
     LoadingSpinnerComponent,
     PartyComponent,
     ConsentComponent,
-    AccountsComponent,
     NotFoundComponent
   ],
   imports: [
