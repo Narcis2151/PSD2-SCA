@@ -1,1 +1,56 @@
-<p>consent works!</p>
+<form
+  #consentForm="ngForm"
+  (ngSubmit)="onSubmit(consentForm)"
+  *ngIf="!isLoading"
+  class="max-w-md mx-auto"
+>
+  <div class="space-y-4">
+    <div *ngFor="let account of accounts; let i = index" class="space-y-2">
+      <div class="flex items-center space-x-2">
+        <label for="name{{ i }}" class="font-bold">Account Name:</label>
+        <span id="name{{ i }}" class="form-input">{{ account.name }}</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <label for="iban{{ i }}" class="font-bold">IBAN:</label>
+        <span id="iban{{ i }}" class="form-input">{{ account.iban }}</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <label class="font-bold">Balances Access:</label>
+        <input
+          type="checkbox"
+          name="showBalances{{ i }}"
+          [(ngModel)]="account.showBalances"
+          class="form-checkbox"
+        />
+      </div>
+      <div class="flex items-center space-x-2">
+        <label class="font-bold">Transactions Access:</label>
+        <input
+          type="checkbox"
+          name="showTransactions{{ i }}"
+          [(ngModel)]="account.showTransactions"
+          class="form-checkbox"
+        />
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <label class="font-bold">Recurring Indicator:</label>
+      <input
+        type="checkbox"
+        name="recurringIndicator"
+        [(ngModel)]="recurringIndicator"
+        class="form-checkbox"
+      />
+    </div>
+    <div *ngIf="recurringIndicator" class="flex items-center space-x-2">
+      <label class="font-bold">Date Picker:</label>
+      <input
+        type="date"
+        name="datePicker"
+        [(ngModel)]="datePicker"
+        class="form-input"
+      />
+    </div>
+    <button [disabled]="!consentForm.valid" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
+  </div>
+</form>
