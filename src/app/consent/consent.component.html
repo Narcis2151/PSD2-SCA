@@ -5,7 +5,7 @@
   class="max-w-md mx-auto"
 >
   <div class="space-y-4">
-    <div *ngFor="let account of accounts; let i = index" class="space-y-2">
+    <div *ngFor="let account of accounts; let i = index" class="space-y-2" ngModelGroup="accountData" #accountData = "ngModelGroup">
       <div class="flex items-center space-x-2">
         <label for="name{{ i }}" class="font-bold">Account Name:</label>
         <span id="name{{ i }}" class="form-input">{{ account.name }}</span>
@@ -18,8 +18,7 @@
         <label class="font-bold">Balances Access:</label>
         <input
           type="checkbox"
-          name="showBalances{{ i }}"
-          [(ngModel)]="account.isBalancesAccount"
+          formControlName="isBalancesAccount"
           [disabled]="!account.isEditable"
           class="form-checkbox"
         />
@@ -28,8 +27,7 @@
         <label class="font-bold">Transactions Access:</label>
         <input
           type="checkbox"
-          name="showTransactions{{ i }}"
-          [(ngModel)]="account.isTransactionsAccount"
+          formControlName="isTransactionsAccount"
           [disabled]="!account.isEditable"
           class="form-checkbox"
         />

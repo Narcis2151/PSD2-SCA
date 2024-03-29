@@ -35,6 +35,7 @@ export default async function loginHandler(
       expiresIn: expiresIn,
     });
   } catch (e: any) {
+    logger.error(e.message);
     res.status(400).send({ error: e.message });
   }
 }
